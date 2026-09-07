@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rodinný kalendář</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--text:#18212b;--muted:#68737f;--line:#e3e7eb;--primary:#1769e0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+h1{font-size:21px;margin:0}.wrap{max-width:1100px;margin:18px auto;padding:0 12px}
+button{border:0;border-radius:10px;padding:10px 14px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}button.secondary{background:#e9edf2;color:#25303b}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.month{font-size:22px;font-weight:800;text-transform:capitalize}.nav{display:flex;gap:7px}
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:13px}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.weekday{background:#edf1f4;padding:9px;text-align:center;font-size:12px;font-weight:800}.day{background:#fff;min-height:120px;padding:7px;cursor:pointer}.day:hover{background:#fafcff}.other{background:#f8f9fa;color:#a1a8b0}.num{font-size:13px;font-weight:800}.today .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--primary);color:#fff;border-radius:50%}
+.event{margin-top:6px;border-radius:7px;padding:5px 6px;font-size:11px;line-height:1.25;overflow:hidden}.event b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.event span{opacity:.75}
+.status{font-size:12px;color:var(--muted);margin:8px 0 0}.status.ok{color:#157347}.status.err{color:#b42318}
+.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:15px;z-index:10}.modal.open{display:flex}.card{background:#fff;border-radius:16px;padding:20px;width:min(470px,100%);box-shadow:0 20px 70px #0004}
+label{display:block;font-size:13px;font-weight:800;margin:11px 0 5px}input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid #cbd3db;border-radius:9px}textarea{min-height:70px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.danger{background:#d92d20}
+@media(max-width:650px){header{padding:13px 14px}.wrap{margin:10px auto}.day{min-height:92px;padding:5px}.weekday{padding:7px 2px;font-size:10px}.event{font-size:10px;padding:4px}.month{font-size:18px}header h1{font-size:18px}}
+</style>
+</head>
+<body>
+<header><h1>👨‍👩‍👧‍👦 Rodinný kalendář</h1><button onclick="openModal()">+ Událost</button></header>
+<div class="wrap">
+  <div class="toolbar">
+    <div class="month" id="month"></div>
+    <div class="nav"><button class="secondary" onclick="moveMonth(-1)">‹</button><button class="secondary" onclick="today()">Dnes</button><button class="secondary" onclick="moveMonth(1)">›</button></div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <div id="calendar" class="calendar"></div>
+  <div id="status" class="status">Připojování k rodinnému kalendáři…</div>
+</div>
+
+<div class="modal" id="modal">
+ <div class="card">
+  <h2 id="modalTitle">Nová událost</h2>
+  <input type="hidden" id="editId">
+  <label>Datum</label><input type="date" id="date">
+  <label>Název</label><input id="title" placeholder="Např. Fotbal">
+  <label>Čas</label><input type="time" id="time">
+  <label>Člen rodiny</label><select id="person"></select>
+  <label>Místo</label><input id="place" placeholder="Volitelné">
+  <label>Poznámka</label><textarea id="note" placeholder="Volitelné"></textarea>
+  <div class="actions"><button class="secondary" onclick="closeModal()">Zrušit</button><button id="deleteBtn" class="danger" style="display:none" onclick="removeEvent()">Smazat</button><button onclick="saveEvent()">Uložit</button></div>
+ </div>
+</div>
+
+<script>
+const SUPABASE_URL="https://ivtsycgfnsksxhqrhty.supabase.co";
+const SUPABASE_KEY="sb_publishable_aAAeE6-YbqdghR9CulMu1g___SvGMot";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const people=[
+ {id:"dospely1",name:"Dospělý 1",color:"#ffd166"},
+ {id:"dospely2",name:"Dospělý 2",color:"#90dbf4"},
+ {id:"dite1",name:"Dítě 1",color:"#b8e986"},
+ {id:"dite2",name:"Dítě 2",color:"#f7aef8"},
+ {id:"dite3",name:"Dítě 3",color:"#ffadad"}
+];
+let events=[], current=new Date(); current.setDate(1);
+const months=["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function status(t,kind=""){let e=document.getElementById("status");e.textContent=t;e.className="status "+kind}
+async function load(){
+ status("Načítám události…");
+ const {data,error}=await db.from("events").select("*").order("event_date").order("event_time");
+ if(error){status("Chyba připojení: "+error.message,"err");return}
+ events=data||[]; render(); status("✓ Připojeno – změny se ukládají online","ok");
+}
+function render(){
+ document.getElementById("month").textContent=`${months[current.getMonth()]} ${current.getFullYear()}`;
+ document.getElementById("legend").innerHTML=people.map(p=>`<span class="pill"><i class="dot" style="background:${p.color}"></i>${p.name}</span>`).join("");
+ const cal=document.getElementById("calendar");cal.innerHTML="";
+ ["Po","Út","St","Čt","Pá","So","Ne"].forEach(x=>{let e=document.createElement("div");e.className="weekday";e.textContent=x;cal.appendChild(e)});
+ const first=new Date(current.getFullYear(),current.getMonth(),1), start=(first.getDay()+6)%7;
+ const days=new Date(current.getFullYear(),current.getMonth()+1,0).getDate(), total=Math.ceil((start+days)/7)*7;
+ for(let i=0;i<total;i++){
+  const n=i-start+1,d=new Date(current.getFullYear(),current.getMonth(),n), inMonth=n>=1&&n<=days;
+  const cell=document.createElement("div");cell.className="day"+(inMonth?"":" other");
+  if(iso(d)===iso(new Date()))cell.className+=" today";
+  cell.innerHTML=`<div class="num">${d.getDate()}</div>`;
+  if(inMonth)cell.onclick=()=>openModal(iso(d));
+  events.filter(x=>x.event_date===iso(d)).forEach(x=>{
+   const p=people.find(p=>p.id===x.person)||people[0], ev=document.createElement("div");ev.className="event";ev.style.background=p.color;
+   ev.innerHTML=`<b>${x.event_time?esc(x.event_time.slice(0,5))+" ":""}${esc(x.title)}</b><span>${esc(p.name)}</span>`;
+   ev.onclick=e=>{e.stopPropagation();openModal(x.event_date,x.id)};cell.appendChild(ev);
+  });
+  cal.appendChild(cell);
+ }
+}
+function openModal(date=iso(new Date()),id=null){
+ document.getElementById("modal").classList.add("open");document.getElementById("editId").value=id||"";
+ document.getElementById("person").innerHTML=people.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
+ const x=id?events.find(e=>String(e.id)===String(id)):null;
+ document.getElementById("modalTitle").textContent=x?"Upravit událost":"Nová událost";
+ document.getElementById("deleteBtn").style.display=x?"inline-block":"none";
+ document.getElementById("date").value=x?.event_date||date;document.getElementById("title").value=x?.title||"";
+ document.getElementById("time").value=x?.event_time?x.event_time.slice(0,5):"";document.getElementById("person").value=x?.person||people[0].id;
+ document.getElementById("place").value=x?.place||"";document.getElementById("note").value=x?.note||"";
+ document.getElementById("title").focus();
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+async function saveEvent(){
+ const title=document.getElementById("title").value.trim();if(!title){alert("Zadej název události.");return}
+ const id=document.getElementById("editId").value;
+ const obj={title,event_date:document.getElementById("date").value,event_time:document.getElementById("time").value||null,person:document.getElementById("person").value,place:document.getElementById("place").value||null,note:document.getElementById("note").value||null};
+ status("Ukládám…");
+ const result=id?await db.from("events").update(obj).eq("id",id):await db.from("events").insert(obj);
+ if(result.error){status("Nepodařilo se uložit: "+result.error.message,"err");alert(result.error.message);return}
+ closeModal();await load();
+}
+async function removeEvent(){
+ const id=document.getElementById("editId").value;if(!confirm("Opravdu smazat událost?"))return;
+ status("Mažu…");const {error}=await db.from("events").delete().eq("id",id);
+ if(error){status("Nepodařilo se smazat: "+error.message,"err");return}closeModal();await load();
+}
+function moveMonth(n){current.setMonth(current.getMonth()+n);render()}function today(){current=new Date();current.setDate(1);render()}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+load();
+setInterval(load,10000);
+</script>
+</body>
+</html>

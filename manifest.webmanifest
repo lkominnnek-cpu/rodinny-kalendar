@@ -1,0 +1,11 @@
+{
+  "name": "Rodinný kalendář",
+  "short_name": "Rodinný kalendář",
+  "description": "Společný rodinný kalendář.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#1769e0",
+  "lang": "cs"
+}

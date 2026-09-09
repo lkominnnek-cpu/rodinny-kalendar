@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1769e0"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon.svg">
 <title>Rodinný kalendář</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -21,7 +21,7 @@ button{border:0;border-radius:10px;padding:10px 14px;background:var(--primary);c
 label{display:block;font-size:13px;font-weight:800;margin:11px 0 5px}input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid #cbd3db;border-radius:9px}textarea{min-height:70px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.danger{background:#d92d20}
 @media(max-width:650px){header{padding:13px 14px}.wrap{margin:10px auto}.day{min-height:92px;padding:5px}.weekday{padding:7px 2px;font-size:10px}.event{font-size:10px;padding:4px}.month{font-size:18px}header h1{font-size:18px}}
 </style>
-</head>
+<script>if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));</script></head>
 <body>
 <header><h1>👨‍👩‍👧‍👦 Rodinný kalendář</h1><button onclick="openModal()">+ Událost</button></header>
 <div class="wrap">

@@ -262,7 +262,60 @@ textarea{
   display:none
 }
 
+/* POZNÁMKY */
+
+.notes{
+  max-width:1100px;
+  margin:28px auto;
+  padding:0 12px;
+}
+
+.notes h2{
+  margin:0 0 14px;
+  font-size:20px;
+}
+
+.notes-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.note-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+}
+
+.note-card h3{
+  margin:0 0 10px;
+  font-size:17px;
+}
+
+.note-card textarea{
+  width:100%;
+  min-height:140px;
+  resize:vertical;
+}
+
+.note-save{
+  margin-top:10px;
+  width:100%;
+}
+
+.note-status{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:7px;
+  min-height:18px;
+}
+
 @media(max-width:800px){
+  .notes-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}@media(max-width:800px){
   .plans-grid{
     grid-template-columns:repeat(2,1fr)
   }
@@ -318,7 +371,59 @@ if ("serviceWorker" in navigator)
 </div>
 
 
-<!-- ROZVRHY A SMĚNY -->
+<!-- POZNÁMKY -->
+
+<section class="notes">
+
+  <h2>📝 Poznámky</h2>
+
+  <div class="notes-grid">
+
+    <div class="note-card">
+      <h3>👩 Mamka</h3>
+      <textarea id="note-mamka" placeholder="Moje poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('mamka')">💾 Uložit</button>
+      <div id="note-status-mamka" class="note-status"></div>
+    </div>
+
+    <div class="note-card">
+      <h3>👨 Taťka</h3>
+      <textarea id="note-tatka" placeholder="Moje poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('tatka')">💾 Uložit</button>
+      <div id="note-status-tatka" class="note-status"></div>
+    </div>
+
+    <div class="note-card">
+      <h3>👧 Natálka</h3>
+      <textarea id="note-natalka" placeholder="Moje poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('natalka')">💾 Uložit</button>
+      <div id="note-status-natalka" class="note-status"></div>
+    </div>
+
+    <div class="note-card">
+      <h3>👧 Emma</h3>
+      <textarea id="note-emma" placeholder="Moje poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('emma')">💾 Uložit</button>
+      <div id="note-status-emma" class="note-status"></div>
+    </div>
+
+    <div class="note-card">
+      <h3>👦 Kristián</h3>
+      <textarea id="note-kristian" placeholder="Moje poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('kristian')">💾 Uložit</button>
+      <div id="note-status-kristian" class="note-status"></div>
+    </div>
+
+    <div class="note-card">
+      <h3>👨‍👩‍👧‍👦 Společné</h3>
+      <textarea id="note-spolecne" placeholder="Společné poznámky..."></textarea>
+      <button class="note-save" onclick="saveNote('spolecne')">💾 Uložit</button>
+      <div id="note-status-spolecne" class="note-status"></div>
+    </div>
+
+  </div>
+
+</section><!-- ROZVRHY A SMĚNY -->
 
 <section class="plans">
 
@@ -1061,12 +1166,96 @@ async function uploadPlan(person,file){
 }
 
 
-/* START */
+/* POZNÁMKY – SUPABASE */
+
+const notePeople = [
+  "mamka",
+  "tatka",
+  "natalka",
+  "emma",
+  "kristian",
+  "spolecne"
+];
+
+
+async function loadNotes(){
+
+  const { data, error } = await db
+    .from("family_notes")
+    .select("*");
+
+  if(error){
+    console.error("Poznámky:", error.message);
+    return;
+  }
+
+  for(const person of notePeople){
+
+    const row = (data || []).find(
+      x => x.person === person
+    );
+
+    const textarea =
+      document.getElementById("note-" + person);
+
+    if(textarea){
+      textarea.value = row?.note || "";
+    }
+  }
+}
+
+
+async function saveNote(person){
+
+  const textarea =
+    document.getElementById("note-" + person);
+
+  const status =
+    document.getElementById("note-status-" + person);
+
+  if(!textarea || !status) return;
+
+  status.textContent = "⏳ Ukládám…";
+
+  const { error } = await db
+    .from("family_notes")
+    .upsert(
+      {
+        person: person,
+        note: textarea.value,
+        updated_at: new Date().toISOString()
+      },
+      {
+        onConflict: "person"
+      }
+    );
+
+  if(error){
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Nepodařilo se uložit";
+
+    alert(
+      "Poznámku se nepodařilo uložit:\n\n" +
+      error.message
+    );
+
+    return;
+  }
+
+  status.textContent = "✓ Uloženo online";
+
+  setTimeout(()=>{
+    status.textContent = "";
+  },3000);
+}/* START */
 
 load();
 
 loadPlans();
-
+loadNotes();
 
 /*
   Kalendář obnovujeme každých 10 sekund.

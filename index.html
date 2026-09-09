@@ -19,13 +19,16 @@
   --line:#e3e7eb;
   --primary:#1769e0
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
+
 header{
   background:var(--card);
   border-bottom:1px solid var(--line);
@@ -38,12 +41,18 @@ header{
   top:0;
   z-index:5
 }
-h1{font-size:21px;margin:0}
+
+h1{
+  font-size:21px;
+  margin:0
+}
+
 .wrap{
   max-width:1100px;
   margin:18px auto;
   padding:0 12px
 }
+
 button{
   border:0;
   border-radius:10px;
@@ -53,10 +62,12 @@ button{
   font-weight:700;
   cursor:pointer
 }
+
 button.secondary{
   background:#e9edf2;
   color:#25303b
 }
+
 .toolbar{
   display:flex;
   align-items:center;
@@ -64,18 +75,25 @@ button.secondary{
   gap:10px;
   margin-bottom:12px
 }
+
 .month{
   font-size:22px;
   font-weight:800;
   text-transform:capitalize
 }
-.nav{display:flex;gap:7px}
+
+.nav{
+  display:flex;
+  gap:7px
+}
+
 .legend{
   display:flex;
   flex-wrap:wrap;
   gap:7px;
   margin-bottom:12px
 }
+
 .pill{
   background:#fff;
   border:1px solid var(--line);
@@ -83,6 +101,7 @@ button.secondary{
   padding:6px 10px;
   font-size:13px
 }
+
 .dot{
   width:9px;
   height:9px;
@@ -90,6 +109,7 @@ button.secondary{
   display:inline-block;
   margin-right:6px
 }
+
 .calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
@@ -99,6 +119,7 @@ button.secondary{
   border-radius:12px;
   overflow:hidden
 }
+
 .weekday{
   background:#edf1f4;
   padding:9px;
@@ -106,21 +127,28 @@ button.secondary{
   font-size:12px;
   font-weight:800
 }
+
 .day{
   background:#fff;
   min-height:120px;
   padding:7px;
   cursor:pointer
 }
-.day:hover{background:#fafcff}
+
+.day:hover{
+  background:#fafcff
+}
+
 .other{
   background:#f8f9fa;
   color:#a1a8b0
 }
+
 .num{
   font-size:13px;
   font-weight:800
 }
+
 .today .num{
   display:inline-flex;
   align-items:center;
@@ -131,6 +159,7 @@ button.secondary{
   color:#fff;
   border-radius:50%
 }
+
 .event{
   margin-top:6px;
   border-radius:7px;
@@ -139,79 +168,95 @@ button.secondary{
   line-height:1.25;
   overflow:hidden
 }
+
 .event b{
   display:block;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis
 }
-.event span{opacity:.75}
+
+.event span{
+  opacity:.75
+}
+
 .status{
   font-size:12px;
   color:var(--muted);
   margin:8px 0 0
 }
-.status.ok{color:#157347}
-.status.err{color:#b42318}
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:#0007;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-  z-index:10
+.status.ok{
+  color:#157347
 }
-.modal.open{display:flex}
-.card{
-  background:#fff;
-  border-radius:16px;
-  padding:20px;
-  width:min(470px,100%);
-  box-shadow:0 20px 70px #0004
+
+.status.err{
+  color:#b42318
 }
-label{
-  display:block;
-  font-size:13px;
-  font-weight:800;
-  margin:11px 0 5px
+
+/* POZNÁMKY */
+
+.notes{
+  max-width:1100px;
+  margin:28px auto;
+  padding:0 12px
 }
-input,select,textarea{
+
+.notes h2{
+  margin:0 0 14px;
+  font-size:20px
+}
+
+.notes-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+
+.note-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px
+}
+
+.note-card h3{
+  margin:0 0 10px;
+  font-size:17px
+}
+
+.note-card textarea{
   width:100%;
-  font:inherit;
-  padding:10px;
-  border:1px solid #cbd3db;
-  border-radius:9px
-}
-textarea{
-  min-height:70px;
+  min-height:140px;
   resize:vertical
 }
-.actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:16px
+
+.note-status{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:7px;
+  min-height:18px
 }
-.danger{background:#d92d20}
 
 /* ROZVRHY */
+
 .plans{
   max-width:1100px;
   margin:28px auto 40px;
   padding:0 12px
 }
+
 .plans h2{
   margin:0 0 14px;
   font-size:20px
 }
+
 .plans-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px
 }
+
 .plan-card{
   background:var(--card);
   border:1px solid var(--line);
@@ -219,15 +264,18 @@ textarea{
   padding:16px;
   min-height:220px
 }
+
 .plan-card h3{
   margin:0 0 6px;
   font-size:17px
 }
+
 .plan-card p{
   color:var(--muted);
   font-size:13px;
   margin:0 0 12px
 }
+
 .plan-image{
   width:100%;
   height:150px;
@@ -237,15 +285,18 @@ textarea{
   margin-bottom:10px;
   display:none
 }
+
 .plan-image.visible{
   display:block
 }
+
 .plan-status{
   color:var(--muted);
   font-size:12px;
   margin-bottom:10px;
   min-height:18px
 }
+
 .upload-btn{
   display:block;
   background:#e9edf2;
@@ -258,78 +309,118 @@ textarea{
   font-weight:700;
   margin:0
 }
+
 .upload-btn input{
   display:none
 }
 
-/* POZNÁMKY */
+/* MODAL */
 
-.notes{
-  max-width:1100px;
-  margin:28px auto;
-  padding:0 12px;
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0007;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:10
 }
 
-.notes h2{
-  margin:0 0 14px;
-  font-size:20px;
+.modal.open{
+  display:flex
 }
 
-.notes-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  width:min(470px,100%);
+  box-shadow:0 20px 70px #0004
 }
 
-.note-card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:16px;
+label{
+  display:block;
+  font-size:13px;
+  font-weight:800;
+  margin:11px 0 5px
 }
 
-.note-card h3{
-  margin:0 0 10px;
-  font-size:17px;
-}
-
-.note-card textarea{
+input,select,textarea{
   width:100%;
-  min-height:140px;
-  resize:vertical;
+  font:inherit;
+  padding:10px;
+  border:1px solid #cbd3db;
+  border-radius:9px
 }
 
-.note-save{
-  margin-top:10px;
-  width:100%;
+textarea{
+  min-height:70px;
+  resize:vertical
 }
 
-.note-status{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:7px;
-  min-height:18px;
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:16px
+}
+
+.danger{
+  background:#d92d20
 }
 
 @media(max-width:800px){
+
   .notes-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr)
   }
-}@media(max-width:800px){
+
   .plans-grid{
     grid-template-columns:repeat(2,1fr)
   }
 }
+
 @media(max-width:650px){
-  header{padding:13px 14px}
-  .wrap{margin:10px auto}
-  .day{min-height:92px;padding:5px}
-  .weekday{padding:7px 2px;font-size:10px}
-  .event{font-size:10px;padding:4px}
-  .month{font-size:18px}
-  header h1{font-size:18px}
+
+  header{
+    padding:13px 14px
+  }
+
+  .wrap{
+    margin:10px auto
+  }
+
+  .day{
+    min-height:92px;
+    padding:5px
+  }
+
+  .weekday{
+    padding:7px 2px;
+    font-size:10px
+  }
+
+  .event{
+    font-size:10px;
+    padding:4px
+  }
+
+  .month{
+    font-size:18px
+  }
+
+  header h1{
+    font-size:18px
+  }
 }
+
 @media(max-width:500px){
+
+  .notes-grid{
+    grid-template-columns:1fr
+  }
+
   .plans-grid{
     grid-template-columns:1fr
   }
@@ -337,9 +428,13 @@ textarea{
 </style>
 
 <script>
-if ("serviceWorker" in navigator)
-  window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
 </script>
+
 </head>
 
 <body>
@@ -349,15 +444,21 @@ if ("serviceWorker" in navigator)
   <button onclick="openModal()">+ Událost</button>
 </header>
 
+
+<!-- KALENDÁŘ -->
+
 <div class="wrap">
 
   <div class="toolbar">
+
     <div class="month" id="month"></div>
+
     <div class="nav">
       <button class="secondary" onclick="moveMonth(-1)">‹</button>
       <button class="secondary" onclick="today()">Dnes</button>
       <button class="secondary" onclick="moveMonth(1)">›</button>
     </div>
+
   </div>
 
   <div class="legend" id="legend"></div>
@@ -382,48 +483,45 @@ if ("serviceWorker" in navigator)
     <div class="note-card">
       <h3>👩 Mamka</h3>
       <textarea id="note-mamka" placeholder="Moje poznámky..."></textarea>
-     
       <div id="note-status-mamka" class="note-status"></div>
     </div>
 
     <div class="note-card">
       <h3>👨 Taťka</h3>
       <textarea id="note-tatka" placeholder="Moje poznámky..."></textarea>
-      
       <div id="note-status-tatka" class="note-status"></div>
     </div>
 
     <div class="note-card">
       <h3>👧 Natálka</h3>
       <textarea id="note-natalka" placeholder="Moje poznámky..."></textarea>
-      
       <div id="note-status-natalka" class="note-status"></div>
     </div>
 
     <div class="note-card">
       <h3>👧 Emma</h3>
       <textarea id="note-emma" placeholder="Moje poznámky..."></textarea>
-      
       <div id="note-status-emma" class="note-status"></div>
     </div>
 
     <div class="note-card">
       <h3>👦 Kristián</h3>
       <textarea id="note-kristian" placeholder="Moje poznámky..."></textarea>
-      
       <div id="note-status-kristian" class="note-status"></div>
     </div>
 
     <div class="note-card">
       <h3>👨‍👩‍👧‍👦 Společné</h3>
       <textarea id="note-spolecne" placeholder="Společné poznámky..."></textarea>
-      
       <div id="note-status-spolecne" class="note-status"></div>
     </div>
 
   </div>
 
-</section><!-- ROZVRHY A SMĚNY -->
+</section>
+
+
+<!-- ROZVRHY A SMĚNY -->
 
 <section class="plans">
 
@@ -432,6 +530,7 @@ if ("serviceWorker" in navigator)
   <div class="plans-grid">
 
     <div class="plan-card">
+
       <h3>👧 Natálka</h3>
       <p>Rozvrh školy</p>
 
@@ -446,12 +545,14 @@ if ("serviceWorker" in navigator)
         <input
           type="file"
           accept="image/*"
-          onchange="uploadPlan('natalka', this.files[0])">
+          onchange="uploadPlan('natalka',this.files[0])">
       </label>
+
     </div>
 
 
     <div class="plan-card">
+
       <h3>👧 Emma</h3>
       <p>Rozvrh školy</p>
 
@@ -466,12 +567,14 @@ if ("serviceWorker" in navigator)
         <input
           type="file"
           accept="image/*"
-          onchange="uploadPlan('emma', this.files[0])">
+          onchange="uploadPlan('emma',this.files[0])">
       </label>
+
     </div>
 
 
     <div class="plan-card">
+
       <h3>👦 Kristián</h3>
       <p>Rozvrh školy</p>
 
@@ -486,12 +589,14 @@ if ("serviceWorker" in navigator)
         <input
           type="file"
           accept="image/*"
-          onchange="uploadPlan('kristian', this.files[0])">
+          onchange="uploadPlan('kristian',this.files[0])">
       </label>
+
     </div>
 
 
     <div class="plan-card">
+
       <h3>👩 Mamka</h3>
       <p>Směny v práci</p>
 
@@ -506,11 +611,13 @@ if ("serviceWorker" in navigator)
         <input
           type="file"
           accept="image/*"
-          onchange="uploadPlan('mamka', this.files[0])">
+          onchange="uploadPlan('mamka',this.files[0])">
       </label>
+
     </div>
 
   </div>
+
 </section>
 
 
@@ -543,7 +650,13 @@ if ("serviceWorker" in navigator)
     <textarea id="note" placeholder="Volitelné"></textarea>
 
     <div class="actions">
-      <button class="secondary" onclick="closeModal()">Zrušit</button>
+
+      <button
+        class="secondary"
+        onclick="closeModal()">
+        Zrušit
+      </button>
+
       <button
         id="deleteBtn"
         class="danger"
@@ -551,87 +664,164 @@ if ("serviceWorker" in navigator)
         onclick="removeEvent()">
         Smazat
       </button>
-      <button onclick="saveEvent()">Uložit</button>
+
+      <button onclick="saveEvent()">
+        Uložit
+      </button>
+
     </div>
 
   </div>
+
 </div>
 
 
 <script>
 
-const SUPABASE_URL="https://ivtsycgfnsnksxhqrhty.supabase.co";
-const SUPABASE_KEY="sb_publishable_aAAeE6-YbqdghR9CulMu1g___SvGMot";
+/* SUPABASE */
 
-const db=window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const SUPABASE_URL =
+  "https://ivtsycgfnsnksxhqrhty.supabase.co";
+
+/*
+  TADY PONECH STEJNOU HODNOTU SUPABASE_KEY,
+  KTEROU MÁŠ V SOUČASNÉM SOUBORU.
+*/
+
+const SUPABASE_KEY =
+  "sb_publishable_...";
+
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
 /* ČLENOVÉ RODINY */
 
-const people=[
-  {id:"dospely1",name:"Mamka",color:"#ffd166"},
-  {id:"dospely2",name:"Taťka",color:"#90dbf4"},
-  {id:"dite1",name:"Natálka",color:"#b8e986"},
-  {id:"dite2",name:"Emma",color:"#f7aef8"},
-  {id:"dite3",name:"Kristián",color:"#ffadad"}
+const people = [
+
+  {
+    id:"dospely1",
+    name:"Mamka",
+    color:"#ffd166"
+  },
+
+  {
+    id:"dospely2",
+    name:"Taťka",
+    color:"#90dbf4"
+  },
+
+  {
+    id:"dite1",
+    name:"Natálka",
+    color:"#b8e986"
+  },
+
+  {
+    id:"dite2",
+    name:"Emma",
+    color:"#f7aef8"
+  },
+
+  {
+    id:"dite3",
+    name:"Kristián",
+    color:"#ffadad"
+  }
+
 ];
 
 
 let events=[];
+
 let current=new Date();
+
 current.setDate(1);
 
-const months=[
-  "leden","únor","březen","duben","květen","červen",
-  "červenec","srpen","září","říjen","listopad","prosinec"
+
+const months = [
+  "leden",
+  "únor",
+  "březen",
+  "duben",
+  "květen",
+  "červen",
+  "červenec",
+  "srpen",
+  "září",
+  "říjen",
+  "listopad",
+  "prosinec"
 ];
 
-const pad=n=>String(n).padStart(2,"0");
 
-const iso=d =>
+const pad =
+  n => String(n).padStart(2,"0");
+
+
+const iso = d =>
   `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 
+
 function esc(s){
-  return String(s??"").replace(
+
+  return String(s ?? "").replace(
     /[&<>"']/g,
-    m=>({
+    m => ({
       "&":"&amp;",
       "<":"&lt;",
       ">":"&gt;",
       '"':"&quot;",
       "'":"&#039;"
     }[m])
-  )
-}
+  );
 
-function status(t,kind=""){
-  const e=document.getElementById("status");
-  e.textContent=t;
-  e.className="status "+kind;
 }
 
 
-/* KALENDÁŘ */
+function status(text,kind=""){
+
+  const el =
+    document.getElementById("status");
+
+  el.textContent=text;
+
+  el.className =
+    "status "+kind;
+
+}
+
+
+/* =========================
+   KALENDÁŘ
+   ========================= */
 
 async function load(){
 
   status("Načítám události…");
 
-  const {data,error}=await db
-    .from("events")
-    .select("*")
-    .order("event_date")
-    .order("event_time");
+  const {data,error} =
+    await db
+      .from("events")
+      .select("*")
+      .order("event_date")
+      .order("event_time");
 
   if(error){
-    status("Chyba připojení: "+error.message,"err");
+
+    status(
+      "Chyba připojení: "+
+      error.message,
+      "err"
+    );
+
     return;
   }
 
-  events=data||[];
+  events=data || [];
 
   render();
 
@@ -639,6 +829,7 @@ async function load(){
     "✓ Připojeno – změny se ukládají online",
     "ok"
   );
+
 }
 
 
@@ -647,188 +838,363 @@ function render(){
   document.getElementById("month").textContent =
     `${months[current.getMonth()]} ${current.getFullYear()}`;
 
+
   document.getElementById("legend").innerHTML =
-    people.map(p=>`
+    people.map(p => `
+
       <span class="pill">
-        <i class="dot" style="background:${p.color}"></i>
+
+        <i
+          class="dot"
+          style="background:${p.color}">
+        </i>
+
         ${p.name}
+
       </span>
+
     `).join("");
 
-  const cal=document.getElementById("calendar");
+
+  const cal =
+    document.getElementById("calendar");
 
   cal.innerHTML="";
 
-  ["Po","Út","St","Čt","Pá","So","Ne"].forEach(x=>{
-    let e=document.createElement("div");
-    e.className="weekday";
-    e.textContent=x;
-    cal.appendChild(e);
+
+  [
+    "Po",
+    "Út",
+    "St",
+    "Čt",
+    "Pá",
+    "So",
+    "Ne"
+  ].forEach(x => {
+
+    const el =
+      document.createElement("div");
+
+    el.className="weekday";
+
+    el.textContent=x;
+
+    cal.appendChild(el);
+
   });
 
-  const first=new Date(
-    current.getFullYear(),
-    current.getMonth(),
-    1
-  );
 
-  const start=(first.getDay()+6)%7;
+  const first =
+    new Date(
+      current.getFullYear(),
+      current.getMonth(),
+      1
+    );
 
-  const days=new Date(
-    current.getFullYear(),
-    current.getMonth()+1,
-    0
-  ).getDate();
 
-  const total=Math.ceil((start+days)/7)*7;
+  const start =
+    (first.getDay()+6)%7;
+
+
+  const days =
+    new Date(
+      current.getFullYear(),
+      current.getMonth()+1,
+      0
+    ).getDate();
+
+
+  const total =
+    Math.ceil((start+days)/7)*7;
+
 
   for(let i=0;i<total;i++){
 
-    const n=i-start+1;
+    const n =
+      i-start+1;
 
-    const d=new Date(
-      current.getFullYear(),
-      current.getMonth(),
-      n
-    );
 
-    const inMonth=n>=1&&n<=days;
+    const d =
+      new Date(
+        current.getFullYear(),
+        current.getMonth(),
+        n
+      );
 
-    const cell=document.createElement("div");
 
-    cell.className="day"+(inMonth?"":" other");
+    const inMonth =
+      n>=1 && n<=days;
 
-    if(iso(d)===iso(new Date()))
-      cell.className+=" today";
 
-    cell.innerHTML=
+    const cell =
+      document.createElement("div");
+
+
+    cell.className =
+      "day"+
+      (inMonth ? "" : " other");
+
+
+    if(iso(d)===iso(new Date())){
+
+      cell.className += " today";
+
+    }
+
+
+    cell.innerHTML =
       `<div class="num">${d.getDate()}</div>`;
 
-    if(inMonth)
-      cell.onclick=()=>openModal(iso(d));
+
+    if(inMonth){
+
+      cell.onclick =
+        () => openModal(iso(d));
+
+    }
+
 
     events
-      .filter(x=>x.event_date===iso(d))
-      .forEach(x=>{
+      .filter(x => x.event_date===iso(d))
+      .forEach(x => {
 
-        const p=
-          people.find(p=>p.id===x.person) ||
-          people[0];
+        const p =
+          people.find(p => p.id===x.person)
+          || people[0];
 
-        const ev=document.createElement("div");
+
+        const ev =
+          document.createElement("div");
+
 
         ev.className="event";
-        ev.style.background=p.color;
 
-        ev.innerHTML=`
+        ev.style.background =
+          p.color;
+
+
+        ev.innerHTML = `
+
           <b>
-            ${x.event_time
+
+            ${
+              x.event_time
               ? esc(x.event_time.slice(0,5))+" "
-              : ""}
+              : ""
+            }
+
             ${esc(x.title)}
+
           </b>
-          <span>${esc(p.name)}</span>
+
+          <span>
+            ${esc(p.name)}
+          </span>
+
         `;
 
-        ev.onclick=e=>{
+
+        ev.onclick=e => {
+
           e.stopPropagation();
-          openModal(x.event_date,x.id);
+
+          openModal(
+            x.event_date,
+            x.id
+          );
+
         };
 
+
         cell.appendChild(ev);
+
       });
 
+
     cal.appendChild(cell);
+
   }
+
 }
 
 
-/* UDÁLOST */
+/* =========================
+   UDÁLOST
+   ========================= */
 
-function openModal(date=iso(new Date()),id=null){
+function openModal(
+  date=iso(new Date()),
+  id=null
+){
 
-  document.getElementById("modal").classList.add("open");
+  document
+    .getElementById("modal")
+    .classList.add("open");
 
-  document.getElementById("editId").value=id||"";
 
-  document.getElementById("person").innerHTML =
-    people.map(p=>
-      `<option value="${p.id}">${p.name}</option>`
-    ).join("");
+  document
+    .getElementById("editId")
+    .value=id || "";
 
-  const x=id
-    ? events.find(e=>String(e.id)===String(id))
+
+  document
+    .getElementById("person")
+    .innerHTML =
+      people.map(p =>
+        `<option value="${p.id}">
+          ${p.name}
+        </option>`
+      ).join("");
+
+
+  const x =
+    id
+    ? events.find(
+        e => String(e.id)===String(id)
+      )
     : null;
 
-  document.getElementById("modalTitle").textContent =
-    x ? "Upravit událost" : "Nová událost";
 
-  document.getElementById("deleteBtn").style.display =
-    x ? "inline-block" : "none";
+  document
+    .getElementById("modalTitle")
+    .textContent =
+      x
+      ? "Upravit událost"
+      : "Nová událost";
 
-  document.getElementById("date").value =
-    x?.event_date||date;
 
-  document.getElementById("title").value =
-    x?.title||"";
+  document
+    .getElementById("deleteBtn")
+    .style.display =
+      x
+      ? "inline-block"
+      : "none";
 
-  document.getElementById("time").value =
-    x?.event_time
+
+  document
+    .getElementById("date")
+    .value =
+      x?.event_date || date;
+
+
+  document
+    .getElementById("title")
+    .value =
+      x?.title || "";
+
+
+  document
+    .getElementById("time")
+    .value =
+      x?.event_time
       ? x.event_time.slice(0,5)
       : "";
 
-  document.getElementById("person").value =
-    x?.person||people[0].id;
 
-  document.getElementById("place").value =
-    x?.place||"";
+  document
+    .getElementById("person")
+    .value =
+      x?.person || people[0].id;
 
-  document.getElementById("note").value =
-    x?.note||"";
 
-  document.getElementById("title").focus();
+  document
+    .getElementById("place")
+    .value =
+      x?.place || "";
+
+
+  document
+    .getElementById("note")
+    .value =
+      x?.note || "";
+
+
+  document
+    .getElementById("title")
+    .focus();
+
 }
 
 
 function closeModal(){
+
   document
     .getElementById("modal")
     .classList.remove("open");
+
 }
 
 
 async function saveEvent(){
 
-  const title=
-    document.getElementById("title").value.trim();
+  const title =
+    document
+      .getElementById("title")
+      .value
+      .trim();
+
 
   if(!title){
+
     alert("Zadej název události.");
+
     return;
+
   }
 
-  const id=
-    document.getElementById("editId").value;
 
-  const obj={
+  const id =
+    document
+      .getElementById("editId")
+      .value;
+
+
+  const obj = {
+
     title,
+
     event_date:
-      document.getElementById("date").value,
+      document
+        .getElementById("date")
+        .value,
+
     event_time:
-      document.getElementById("time").value||null,
+      document
+        .getElementById("time")
+        .value || null,
+
     person:
-      document.getElementById("person").value,
+      document
+        .getElementById("person")
+        .value,
+
     place:
-      document.getElementById("place").value||null,
+      document
+        .getElementById("place")
+        .value || null,
+
     note:
-      document.getElementById("note").value||null
+      document
+        .getElementById("note")
+        .value || null
+
   };
+
 
   status("Ukládám…");
 
-  const result=id
-    ? await db.from("events").update(obj).eq("id",id)
-    : await db.from("events").insert(obj);
+
+  const result =
+    id
+    ? await db
+        .from("events")
+        .update(obj)
+        .eq("id",id)
+
+    : await db
+        .from("events")
+        .insert(obj);
+
 
   if(result.error){
 
@@ -841,28 +1207,38 @@ async function saveEvent(){
     alert(result.error.message);
 
     return;
+
   }
+
 
   closeModal();
 
   await load();
+
 }
 
 
 async function removeEvent(){
 
-  const id=
-    document.getElementById("editId").value;
+  const id =
+    document
+      .getElementById("editId")
+      .value;
+
 
   if(!confirm("Opravdu smazat událost?"))
     return;
 
+
   status("Mažu…");
 
-  const {error}=await db
-    .from("events")
-    .delete()
-    .eq("id",id);
+
+  const {error} =
+    await db
+      .from("events")
+      .delete()
+      .eq("id",id);
+
 
   if(error){
 
@@ -873,41 +1249,61 @@ async function removeEvent(){
     );
 
     return;
+
   }
+
 
   closeModal();
 
   await load();
+
 }
 
 
 function moveMonth(n){
-  current.setMonth(current.getMonth()+n);
+
+  current.setMonth(
+    current.getMonth()+n
+  );
+
   render();
+
 }
 
+
 function today(){
+
   current=new Date();
+
   current.setDate(1);
+
   render();
+
 }
 
 
 document
   .getElementById("modal")
-  .addEventListener("click",e=>{
-    if(e.target.id==="modal")
-      closeModal();
-  });
+  .addEventListener(
+    "click",
+    e => {
+
+      if(e.target.id==="modal")
+        closeModal();
+
+    }
+  );
 
 
-/* =====================================================
-   ROZVRHY / SMĚNY – SUPABASE STORAGE
-   ===================================================== */
+/* =========================
+   ROZVRHY
+   ========================= */
 
-const PLAN_BUCKET="family-photos";
+const PLAN_BUCKET =
+  "family-photos";
 
-const planPeople=[
+
+const planPeople = [
   "natalka",
   "emma",
   "kristian",
@@ -915,27 +1311,39 @@ const planPeople=[
 ];
 
 
-function planStatus(person,text,error=false){
+function planStatus(
+  person,
+  text,
+  error=false
+){
 
-  const el=
+  const el =
     document.getElementById(
       "plan-status-"+person
     );
 
-  if(!el)return;
+
+  if(!el)
+    return;
+
 
   el.textContent=text;
 
-  el.style.color=
-    error ? "#b42318" : "";
+  el.style.color =
+    error
+    ? "#b42318"
+    : "";
+
 }
 
 
 async function loadPlans(){
 
-  const {data,error}=await db
-    .from("family_plans")
-    .select("*");
+  const {data,error} =
+    await db
+      .from("family_plans")
+      .select("*");
+
 
   if(error){
 
@@ -944,26 +1352,24 @@ async function loadPlans(){
       error.message
     );
 
-    planPeople.forEach(person=>{
-      planStatus(
-        person,
-        "Rozvrh zatím není nastaven",
-        true
-      );
-    });
-
     return;
+
   }
+
 
   for(const person of planPeople){
 
-    const row=
-      (data||[]).find(x=>x.person===person);
+    const row =
+      (data || []).find(
+        x => x.person===person
+      );
 
-    const img=
+
+    const img =
       document.getElementById(
         "plan-img-"+person
       );
+
 
     if(!row){
 
@@ -975,12 +1381,15 @@ async function loadPlans(){
       img.classList.remove("visible");
 
       continue;
+
     }
 
-    const {data:urlData}=
+
+    const {data:urlData} =
       db.storage
         .from(PLAN_BUCKET)
         .getPublicUrl(row.path);
+
 
     if(!urlData?.publicUrl){
 
@@ -991,69 +1400,80 @@ async function loadPlans(){
       );
 
       continue;
+
     }
 
-    img.src=
+
+    img.src =
       urlData.publicUrl+
       "?v="+
       encodeURIComponent(
-        row.updated_at||Date.now()
+        row.updated_at || Date.now()
       );
 
+
     img.classList.add("visible");
+
 
     planStatus(
       person,
       "✓ Uloženo online"
     );
+
   }
+
 }
 
 
-async function uploadPlan(person,file){
+async function uploadPlan(
+  person,
+  file
+){
 
   if(!file)
     return;
+
 
   if(!file.type.startsWith("image/")){
 
     alert("Vyber prosím obrázek.");
 
     return;
+
   }
 
-  if(file.size>6*1024*1024){
+
+  if(file.size > 6*1024*1024){
 
     alert(
       "Fotka je příliš velká.\n\n"+
-      "Vyber prosím obrázek menší než 6 MB."
+      "Vyber obrázek menší než 6 MB."
     );
 
     return;
+
   }
+
 
   planStatus(
     person,
     "⏳ Nahrávám…"
   );
 
-  /*
-    Vždy vytvoříme nový soubor.
-    Díky tomu se nebude zobrazovat stará
-    fotka z cache.
-  */
 
-  const extension=
+  const extension =
     file.type==="image/png"
-      ? "png"
-      : file.type==="image/webp"
-        ? "webp"
-        : "jpg";
+    ? "png"
+    : file.type==="image/webp"
+      ? "webp"
+      : "jpg";
 
-  const path=
+
+  const path =
     `plans/${person}-${Date.now()}.${extension}`;
 
-  const {error:uploadError}=
+
+  const {error:uploadError} =
     await db.storage
       .from(PLAN_BUCKET)
       .upload(
@@ -1066,9 +1486,8 @@ async function uploadPlan(person,file){
         }
       );
 
-  if(uploadError){
 
-    console.error(uploadError);
+  if(uploadError){
 
     planStatus(
       person,
@@ -1082,52 +1501,33 @@ async function uploadPlan(person,file){
     );
 
     return;
+
   }
 
 
-  /*
-    Získáme veřejnou adresu fotky.
-  */
-
-  const {data:urlData}=
+  const {data:urlData} =
     db.storage
       .from(PLAN_BUCKET)
       .getPublicUrl(path);
 
-  if(!urlData?.publicUrl){
 
-    planStatus(
-      person,
-      "Nepodařilo se vytvořit odkaz",
-      true
-    );
-
-    return;
-  }
-
-
-  /*
-    Uložíme informaci o poslední fotce
-    do tabulky family_plans.
-  */
-
-  const {error:dbError}=
+  const {error:dbError} =
     await db
       .from("family_plans")
       .upsert(
         {
           person,
           path,
-          updated_at:new Date().toISOString()
+          updated_at:
+            new Date().toISOString()
         },
         {
           onConflict:"person"
         }
       );
 
-  if(dbError){
 
-    console.error(dbError);
+  if(dbError){
 
     planStatus(
       person,
@@ -1141,32 +1541,35 @@ async function uploadPlan(person,file){
     );
 
     return;
+
   }
 
 
-  /*
-    Okamžitě ji zobrazíme.
-  */
-
-  const img=
+  const img =
     document.getElementById(
       "plan-img-"+person
     );
 
-  img.src=
+
+  img.src =
     urlData.publicUrl+
     "?v="+Date.now();
 
+
   img.classList.add("visible");
+
 
   planStatus(
     person,
     "✓ Uloženo online"
   );
+
 }
 
 
-/* POZNÁMKY – SUPABASE */
+/* =========================
+   POZNÁMKY
+   ========================= */
 
 const notePeople = [
   "mamka",
@@ -1180,71 +1583,110 @@ const notePeople = [
 
 async function loadNotes(){
 
-  const { data, error } = await db
-    .from("family_notes")
-    .select("*");
+  const {data,error} =
+    await db
+      .from("family_notes")
+      .select("*");
+
 
   if(error){
-    console.error("Poznámky:", error.message);
+
+    console.error(
+      "Poznámky:",
+      error.message
+    );
+
     return;
+
   }
+
 
   for(const person of notePeople){
 
-    const row = (data || []).find(
-      x => x.person === person
-    );
+    const row =
+      (data || []).find(
+        x => x.person===person
+      );
+
 
     const textarea =
-      document.getElementById("note-" + person);
+      document.getElementById(
+        "note-"+person
+      );
+
 
     if(textarea){
-      textarea.value = row?.note || "";
+
+      textarea.value =
+        row?.note || "";
+
     }
+
   }
+
 }
 
 
 async function saveNote(person){
 
   const textarea =
-    document.getElementById("note-" + person);
-
-  const status =
-    document.getElementById("note-status-" + person);
-
-  if(!textarea || !status) return;
-
-  status.textContent = "⏳ Ukládám…";
-
-  const { error } = await db
-    .from("family_notes")
-    .upsert(
-      {
-        person: person,
-        note: textarea.value,
-        updated_at: new Date().toISOString()
-      },
-      {
-        onConflict: "person"
-      }
+    document.getElementById(
+      "note-"+person
     );
+
+
+  const noteStatus =
+    document.getElementById(
+      "note-status-"+person
+    );
+
+
+  if(!textarea || !noteStatus)
+    return;
+
+
+  noteStatus.textContent =
+    "⏳ Ukládám…";
+
+
+  const {error} =
+    await db
+      .from("family_notes")
+      .upsert(
+        {
+          person,
+          note:textarea.value,
+          updated_at:
+            new Date().toISOString()
+        },
+        {
+          onConflict:"person"
+        }
+      );
+
 
   if(error){
 
     console.error(error);
 
-    status.textContent =
+    noteStatus.textContent =
       "❌ Nepodařilo se uložit";
 
     return;
+
   }
 
-  status.textContent = "✓ Uloženo";
 
-  setTimeout(()=>{
-    status.textContent = "";
-  },2000);
+  noteStatus.textContent =
+    "✓ Uloženo";
+
+  setTimeout(
+    () => {
+      noteStatus.textContent="";
+    },
+    2000
+  );
+
 }
 
 
@@ -1252,93 +1694,75 @@ async function saveNote(person){
 
 const noteTimers = {};
 
+
 notePeople.forEach(person => {
 
   const textarea =
-    document.getElementById("note-" + person);
+    document.getElementById(
+      "note-"+person
+    );
 
-  if(!textarea) return;
 
-  textarea.addEventListener("input", () => {
+  if(!textarea)
+    return;
 
-    clearTimeout(noteTimers[person]);
 
-    const status =
-      document.getElementById(
-        "note-status-" + person
+  textarea.addEventListener(
+    "input",
+    () => {
+
+      clearTimeout(
+        noteTimers[person]
       );
 
-    if(status)
-      status.textContent = "✏️ Změna…";
 
-    noteTimers[person] = setTimeout(() => {
+      const noteStatus =
+        document.getElementById(
+          "note-status-"+person
+        );
 
-      saveNote(person);
 
-    },1000);
+      if(noteStatus){
 
-  });
+        noteStatus.textContent =
+          "✏️ Změna…";
+
+      }
+
+
+      noteTimers[person] =
+        setTimeout(
+          () => saveNote(person),
+          1000
+        );
+
+    }
+  );
 
 });
 
-  const textarea =
-    document.getElementById("note-" + person);
 
-  const status =
-    document.getElementById("note-status-" + person);
-
-  if(!textarea || !status) return;
-
-  status.textContent = "⏳ Ukládám…";
-
-  const { error } = await db
-    .from("family_notes")
-    .upsert(
-      {
-        person: person,
-        note: textarea.value,
-        updated_at: new Date().toISOString()
-      },
-      {
-        onConflict: "person"
-      }
-    );
-
-  if(error){
-
-    console.error(error);
-
-    status.textContent =
-      "❌ Nepodařilo se uložit";
-
-    alert(
-      "Poznámku se nepodařilo uložit:\n\n" +
-      error.message
-    );
-
-    return;
-  }
-
-  status.textContent = "✓ Uloženo online";
-
-  setTimeout(()=>{
-    status.textContent = "";
-  },3000);
-}/* START */
+/* =========================
+   START
+   ========================= */
 
 load();
 
 loadPlans();
+
 loadNotes();
 
-/*
-  Kalendář obnovujeme každých 10 sekund.
-  Rozvrhy každých 30 sekund.
-*/
 
-setInterval(load,10000);
+setInterval(
+  load,
+  10000
+);
 
-setInterval(loadPlans,30000);
+
+setInterval(
+  loadPlans,
+  30000
+);
 
 </script>
 

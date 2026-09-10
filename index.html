@@ -322,7 +322,7 @@ button.secondary{
 .gallery-box h2{margin:0 40px 14px 0;font-size:20px}
 .gallery-close{position:absolute;top:12px;right:12px;width:40px;height:40px;padding:0;font-size:24px;line-height:40px}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.gallery-item{width:100%;height:260px;object-fit:contain;background:#f4f6f8;border-radius:10px;cursor:pointer}
+.gallery-photo{position:relative}.gallery-item{width:100%;height:260px;object-fit:contain;background:#f4f6f8;border-radius:10px;cursor:pointer}.gallery-delete{position:absolute;right:8px;top:8px;background:#d92d20;color:#fff;border:0;border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer}
 .gallery-empty{color:var(--muted);font-size:14px;padding:10px 0}
 @media(max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:500px){.gallery-grid{grid-template-columns:1fr}.gallery-item{height:320px}}
@@ -1435,6 +1435,9 @@ async function openPlanGallery(person){
 
       if(!urlData?.publicUrl) return;
 
+      const wrap=document.createElement("div");
+      wrap.className="gallery-photo";
+
       const img=document.createElement("img");
       img.className="gallery-item";
       img.src=urlData.publicUrl+"?v="+encodeURIComponent(row.created_at || Date.now());
@@ -1442,11 +1445,50 @@ async function openPlanGallery(person){
 
       img.onclick=()=>window.open(img.src,"_blank");
 
-      grid.appendChild(img);
+      const del=document.createElement("button");
+      del.className="gallery-delete";
+      del.textContent="🗑️ Smazat";
+      del.onclick=(e)=>{
+        e.stopPropagation();
+        deletePlanImage(row);
+      };
+
+      wrap.appendChild(img);
+      wrap.appendChild(del);
+      grid.appendChild(wrap);
     });
   }
 
   document.getElementById("galleryModal").classList.add("open");
+}
+
+async function deletePlanImage(row){
+  if(!confirm("Opravdu smazat tento obrázek?")) return;
+
+  const {error:storageError}=await db.storage
+    .from(PLAN_BUCKET)
+    .remove([row.path]);
+
+  if(storageError){
+    console.error(storageError);
+    alert("Obrázek se nepodařilo smazat ze Storage:\n\n"+storageError.message);
+    return;
+  }
+
+  const {error:dbError}=await db
+    .from("family_plan_images")
+    .delete()
+    .eq("id",row.id);
+
+  if(dbError){
+    console.error(dbError);
+    alert("Obrázek byl smazán ze Storage, ale nepodařilo se smazat záznam v databázi:\n\n"+dbError.message);
+    return;
+  }
+
+  planImages=planImages.filter(x=>x.id!==row.id);
+  await loadPlans();
+  await openPlanGallery(row.person);
 }
 
 function closePlanGallery(){

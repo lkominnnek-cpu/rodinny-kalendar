@@ -314,6 +314,19 @@ button.secondary{
   display:none
 }
 
+
+/* GALERIE ROZVRHŮ */
+.gallery-modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:15px;z-index:20}
+.gallery-modal.open{display:flex}
+.gallery-box{background:#fff;border-radius:16px;padding:18px;width:min(1000px,100%);max-height:90vh;overflow:auto;position:relative}
+.gallery-box h2{margin:0 40px 14px 0;font-size:20px}
+.gallery-close{position:absolute;top:12px;right:12px;width:40px;height:40px;padding:0;font-size:24px;line-height:40px}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery-item{width:100%;height:260px;object-fit:contain;background:#f4f6f8;border-radius:10px;cursor:pointer}
+.gallery-empty{color:var(--muted);font-size:14px;padding:10px 0}
+@media(max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.gallery-grid{grid-template-columns:1fr}.gallery-item{height:320px}}
+
 /* MODAL */
 
 .modal{
@@ -529,97 +542,63 @@ if("serviceWorker" in navigator){
 
   <div class="plans-grid">
 
-    <div class="plan-card">
-
+    <div class="plan-card" onclick="openPlanGallery('natalka')">
       <h3>👧 Natálka</h3>
       <p>Rozvrh školy</p>
-
       <img id="plan-img-natalka" class="plan-image">
-
-      <div id="plan-status-natalka" class="plan-status">
-        Zatím bez fotky
-      </div>
-
-      <label class="upload-btn">
+      <div id="plan-status-natalka" class="plan-status">Zatím bez fotky</div>
+      <label class="upload-btn" onclick="event.stopPropagation()">
         📷 Nahrát / změnit
-        <input
-          type="file"
-          accept="image/*"
-          onchange="uploadPlan('natalka',this.files[0])">
+        <input type="file" accept="image/*" multiple onchange="uploadPlans('natalka',this.files)">
       </label>
-
     </div>
 
-
-    <div class="plan-card">
-
+    <div class="plan-card" onclick="openPlanGallery('emma')">
       <h3>👧 Emma</h3>
       <p>Rozvrh školy</p>
-
       <img id="plan-img-emma" class="plan-image">
-
-      <div id="plan-status-emma" class="plan-status">
-        Zatím bez fotky
-      </div>
-
-      <label class="upload-btn">
+      <div id="plan-status-emma" class="plan-status">Zatím bez fotky</div>
+      <label class="upload-btn" onclick="event.stopPropagation()">
         📷 Nahrát / změnit
-        <input
-          type="file"
-          accept="image/*"
-          onchange="uploadPlan('emma',this.files[0])">
+        <input type="file" accept="image/*" multiple onchange="uploadPlans('emma',this.files)">
       </label>
-
     </div>
 
-
-    <div class="plan-card">
-
+    <div class="plan-card" onclick="openPlanGallery('kristian')">
       <h3>👦 Kristián</h3>
       <p>Rozvrh školy</p>
-
       <img id="plan-img-kristian" class="plan-image">
-
-      <div id="plan-status-kristian" class="plan-status">
-        Zatím bez fotky
-      </div>
-
-      <label class="upload-btn">
+      <div id="plan-status-kristian" class="plan-status">Zatím bez fotky</div>
+      <label class="upload-btn" onclick="event.stopPropagation()">
         📷 Nahrát / změnit
-        <input
-          type="file"
-          accept="image/*"
-          onchange="uploadPlan('kristian',this.files[0])">
+        <input type="file" accept="image/*" multiple onchange="uploadPlans('kristian',this.files)">
       </label>
-
     </div>
 
-
-    <div class="plan-card">
-
+    <div class="plan-card" onclick="openPlanGallery('mamka')">
       <h3>👩 Mamka</h3>
       <p>Směny v práci</p>
-
       <img id="plan-img-mamka" class="plan-image">
-
-      <div id="plan-status-mamka" class="plan-status">
-        Zatím bez fotky
-      </div>
-
-      <label class="upload-btn">
+      <div id="plan-status-mamka" class="plan-status">Zatím bez fotky</div>
+      <label class="upload-btn" onclick="event.stopPropagation()">
         📷 Nahrát / změnit
-        <input
-          type="file"
-          accept="image/*"
-          onchange="uploadPlan('mamka',this.files[0])">
+        <input type="file" accept="image/*" multiple onchange="uploadPlans('mamka',this.files)">
       </label>
-
     </div>
 
   </div>
 
 </section>
 
+<!-- MODAL GALERIE -->
+
+<div class="gallery-modal" id="galleryModal">
+  <div class="gallery-box">
+    <button class="gallery-close" onclick="closePlanGallery()">×</button>
+    <h2 id="galleryTitle">Rozvrh</h2>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </div>
+</div>
 
 <!-- MODAL UDÁLOSTI -->
 
@@ -1298,9 +1277,7 @@ document
    ROZVRHY
    ========================= */
 
-const PLAN_BUCKET =
-  "family-photos";
-
+const PLAN_BUCKET = "family-photos";
 
 const planPeople = [
   "natalka",
@@ -1309,261 +1286,176 @@ const planPeople = [
   "mamka"
 ];
 
+const planNames = {
+  natalka:"👧 Natálka – Rozvrh školy",
+  emma:"👧 Emma – Rozvrh školy",
+  kristian:"👦 Kristián – Rozvrh školy",
+  mamka:"👩 Mamka – Směny v práci"
+};
 
-function planStatus(
-  person,
-  text,
-  error=false
-){
+let planImages = [];
 
-  const el =
-    document.getElementById(
-      "plan-status-"+person
-    );
-
-
-  if(!el)
-    return;
-
-
+function planStatus(person,text,error=false){
+  const el=document.getElementById("plan-status-"+person);
+  if(!el) return;
   el.textContent=text;
-
-  el.style.color =
-    error
-    ? "#b42318"
-    : "";
-
+  el.style.color=error ? "#b42318" : "";
 }
-
 
 async function loadPlans(){
 
-  const {data,error} =
-    await db
-      .from("family_plans")
-      .select("*");
-
+  const {data,error}=await db
+    .from("family_plan_images")
+    .select("*")
+    .order("created_at");
 
   if(error){
-
-    console.log(
-      "Rozvrhy – chyba:",
-      error.message
-    );
-
+    console.log("Rozvrhy – chyba:",error.message);
     return;
-
   }
 
+  planImages=data || [];
 
   for(const person of planPeople){
 
-    const row =
-      (data || []).find(
-        x => x.person===person
-      );
+    const rows=planImages.filter(x=>x.person===person);
+    const img=document.getElementById("plan-img-"+person);
 
-
-    const img =
-      document.getElementById(
-        "plan-img-"+person
-      );
-
-
-    if(!row){
-
-      planStatus(
-        person,
-        "Zatím bez fotky"
-      );
-
+    if(!rows.length){
+      planStatus(person,"Zatím bez fotky");
       img.classList.remove("visible");
-
       continue;
-
     }
 
+    const {data:urlData}=db.storage
+      .from(PLAN_BUCKET)
+      .getPublicUrl(rows[0].path);
 
-    const {data:urlData} =
-      db.storage
+    if(!urlData?.publicUrl){
+      planStatus(person,"Fotku se nepodařilo načíst",true);
+      continue;
+    }
+
+    img.src=urlData.publicUrl+"?v="+encodeURIComponent(rows[0].created_at || Date.now());
+    img.classList.add("visible");
+
+    planStatus(
+      person,
+      rows.length===1 ? "✓ 1 obrázek online" : `✓ ${rows.length} obrázků online`
+    );
+  }
+}
+
+async function uploadPlans(person,files){
+
+  const selected=Array.from(files || []);
+  if(!selected.length) return;
+
+  const images=selected.filter(file=>file.type.startsWith("image/"));
+
+  if(images.length!==selected.length){
+    alert("Vyber prosím pouze obrázky.");
+    return;
+  }
+
+  const tooLarge=images.find(file=>file.size>6*1024*1024);
+
+  if(tooLarge){
+    alert("Některý obrázek je příliš velký.\n\nKaždý obrázek musí mít méně než 6 MB.");
+    return;
+  }
+
+  planStatus(person,`⏳ Nahrávám ${images.length} obrázků…`);
+
+  let uploaded=0;
+
+  for(const file of images){
+
+    const extension =
+      file.type==="image/png" ? "png" :
+      file.type==="image/webp" ? "webp" : "jpg";
+
+    const path=`plans/${person}-${Date.now()}-${Math.random().toString(36).slice(2)}.${extension}`;
+
+    const {error:uploadError}=await db.storage
+      .from(PLAN_BUCKET)
+      .upload(path,file,{
+        cacheControl:"3600",
+        contentType:file.type,
+        upsert:false
+      });
+
+    if(uploadError){
+      console.error(uploadError);
+      planStatus(person,"Některý obrázek se nepodařilo nahrát",true);
+      alert("Obrázek se nepodařilo nahrát:\n\n"+uploadError.message);
+      return;
+    }
+
+    const {error:dbError}=await db
+      .from("family_plan_images")
+      .insert({person,path});
+
+    if(dbError){
+      console.error(dbError);
+      planStatus(person,"Obrázek je nahraný, ale nepodařilo se uložit odkaz",true);
+      alert("Obrázek se nahrál, ale databáze ho nepřidala do rozvrhu:\n\n"+dbError.message);
+      return;
+    }
+
+    uploaded++;
+  }
+
+  await loadPlans();
+
+  planStatus(
+    person,
+    `✓ ${uploaded} obrázk${uploaded===1 ? "ek" : "ů"} uloženo online`
+  );
+}
+
+async function openPlanGallery(person){
+
+  const rows=planImages.filter(x=>x.person===person);
+  const grid=document.getElementById("galleryGrid");
+  const title=document.getElementById("galleryTitle");
+
+  title.textContent=planNames[person] || "Rozvrh";
+  grid.innerHTML="";
+
+  if(!rows.length){
+    grid.innerHTML='<div class="gallery-empty">Zatím zde nejsou žádné obrázky.</div>';
+  }else{
+
+    rows.forEach(row=>{
+
+      const {data:urlData}=db.storage
         .from(PLAN_BUCKET)
         .getPublicUrl(row.path);
 
+      if(!urlData?.publicUrl) return;
 
-    if(!urlData?.publicUrl){
+      const img=document.createElement("img");
+      img.className="gallery-item";
+      img.src=urlData.publicUrl+"?v="+encodeURIComponent(row.created_at || Date.now());
+      img.alt=planNames[person] || "Rozvrh";
 
-      planStatus(
-        person,
-        "Fotku se nepodařilo načíst",
-        true
-      );
+      img.onclick=()=>window.open(img.src,"_blank");
 
-      continue;
-
-    }
-
-
-    img.src =
-      urlData.publicUrl+
-      "?v="+
-      encodeURIComponent(
-        row.updated_at || Date.now()
-      );
-
-
-    img.classList.add("visible");
-
-
-    planStatus(
-      person,
-      "✓ Uloženo online"
-    );
-
+      grid.appendChild(img);
+    });
   }
 
+  document.getElementById("galleryModal").classList.add("open");
 }
 
-
-async function uploadPlan(
-  person,
-  file
-){
-
-  if(!file)
-    return;
-
-
-  if(!file.type.startsWith("image/")){
-
-    alert("Vyber prosím obrázek.");
-
-    return;
-
-  }
-
-
-  if(file.size > 6*1024*1024){
-
-    alert(
-      "Fotka je příliš velká.\n\n"+
-      "Vyber obrázek menší než 6 MB."
-    );
-
-    return;
-
-  }
-
-
-  planStatus(
-    person,
-    "⏳ Nahrávám…"
-  );
-
-
-  const extension =
-    file.type==="image/png"
-    ? "png"
-    : file.type==="image/webp"
-      ? "webp"
-      : "jpg";
-
-
-  const path =
-    `plans/${person}-${Date.now()}.${extension}`;
-
-
-  const {error:uploadError} =
-    await db.storage
-      .from(PLAN_BUCKET)
-      .upload(
-        path,
-        file,
-        {
-          cacheControl:"3600",
-          contentType:file.type,
-          upsert:false
-        }
-      );
-
-
-  if(uploadError){
-
-    planStatus(
-      person,
-      "Nahrávání se nepodařilo",
-      true
-    );
-
-    alert(
-      "Fotku se nepodařilo nahrát:\n\n"+
-      uploadError.message
-    );
-
-    return;
-
-  }
-
-
-  const {data:urlData} =
-    db.storage
-      .from(PLAN_BUCKET)
-      .getPublicUrl(path);
-
-
-  const {error:dbError} =
-    await db
-      .from("family_plans")
-      .upsert(
-        {
-          person,
-          path,
-          updated_at:
-            new Date().toISOString()
-        },
-        {
-          onConflict:"person"
-        }
-      );
-
-
-  if(dbError){
-
-    planStatus(
-      person,
-      "Fotka je nahraná, ale nepodařilo se uložit odkaz",
-      true
-    );
-
-    alert(
-      "Fotka se nahrála, ale databáze ji nepřidala do rozvrhu:\n\n"+
-      dbError.message
-    );
-
-    return;
-
-  }
-
-
-  const img =
-    document.getElementById(
-      "plan-img-"+person
-    );
-
-
-  img.src =
-    urlData.publicUrl+
-    "?v="+Date.now();
-
-
-  img.classList.add("visible");
-
-
-  planStatus(
-    person,
-    "✓ Uloženo online"
-  );
-
+function closePlanGallery(){
+  document.getElementById("galleryModal").classList.remove("open");
 }
+
+document.getElementById("galleryModal").addEventListener("click",e=>{
+  if(e.target.id==="galleryModal") closePlanGallery();
+});
 
 
 /* =========================

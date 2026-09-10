@@ -322,10 +322,74 @@ button.secondary{
 .gallery-box h2{margin:0 40px 14px 0;font-size:20px}
 .gallery-close{position:absolute;top:12px;right:12px;width:40px;height:40px;padding:0;font-size:24px;line-height:40px}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.gallery-photo{position:relative}.gallery-item{width:100%;height:260px;object-fit:contain;background:#f4f6f8;border-radius:10px;cursor:pointer}.gallery-delete{position:absolute;right:8px;top:8px;background:#d92d20;color:#fff;border:0;border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer}
+.gallery-item{width:100%;height:260px;object-fit:contain;background:#f4f6f8;border-radius:10px;cursor:pointer}
 .gallery-empty{color:var(--muted);font-size:14px;padding:10px 0}
 @media(max-width:800px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:500px){.gallery-grid{grid-template-columns:1fr}.gallery-item{height:320px}}
+
+
+/* PŘÍLOHY POZNÁMEK */
+.note-files{
+  margin-top:10px;
+}
+.note-files-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-bottom:9px;
+}
+.file-upload-btn{
+  display:block;
+  background:#e9edf2;
+  color:#25303b;
+  border-radius:10px;
+  padding:9px 10px;
+  text-align:center;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+.file-upload-btn input{
+  display:none;
+}
+.note-file{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 10px;
+  background:#f4f6f8;
+  border-radius:9px;
+  font-size:13px;
+}
+.note-file-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#25303b;
+  cursor:pointer;
+  text-decoration:none;
+  flex:1;
+}
+.note-file-name:hover{
+  text-decoration:underline;
+}
+.note-file-delete{
+  background:#d92d20;
+  color:#fff;
+  padding:6px 9px;
+  border-radius:8px;
+  font-size:12px;
+  flex:0 0 auto;
+}
+.note-file-image{
+  width:42px;
+  height:42px;
+  object-fit:cover;
+  border-radius:7px;
+  background:#fff;
+  flex:0 0 auto;
+}
 
 /* MODAL */
 
@@ -497,36 +561,78 @@ if("serviceWorker" in navigator){
       <h3>👩 Mamka</h3>
       <textarea id="note-mamka" placeholder="Moje poznámky..."></textarea>
       <div id="note-status-mamka" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-mamka" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('mamka',this.files)">
+        </label>
+      </div>
     </div>
 
     <div class="note-card">
       <h3>👨 Taťka</h3>
       <textarea id="note-tatka" placeholder="Moje poznámky..."></textarea>
       <div id="note-status-tatka" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-tatka" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('tatka',this.files)">
+        </label>
+      </div>
     </div>
 
     <div class="note-card">
       <h3>👧 Natálka</h3>
       <textarea id="note-natalka" placeholder="Moje poznámky..."></textarea>
       <div id="note-status-natalka" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-natalka" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('natalka',this.files)">
+        </label>
+      </div>
     </div>
 
     <div class="note-card">
       <h3>👧 Emma</h3>
       <textarea id="note-emma" placeholder="Moje poznámky..."></textarea>
       <div id="note-status-emma" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-emma" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('emma',this.files)">
+        </label>
+      </div>
     </div>
 
     <div class="note-card">
       <h3>👦 Kristián</h3>
       <textarea id="note-kristian" placeholder="Moje poznámky..."></textarea>
       <div id="note-status-kristian" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-kristian" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('kristian',this.files)">
+        </label>
+      </div>
     </div>
 
     <div class="note-card">
       <h3>👨‍👩‍👧‍👦 Společné</h3>
       <textarea id="note-spolecne" placeholder="Společné poznámky..."></textarea>
       <div id="note-status-spolecne" class="note-status"></div>
+      <div class="note-files">
+        <div id="note-files-spolecne" class="note-files-list"></div>
+        <label class="file-upload-btn" onclick="event.stopPropagation()">
+          📎 Přidat fotky / soubory
+          <input type="file" multiple onchange="uploadNoteFiles('spolecne',this.files)">
+        </label>
+      </div>
     </div>
 
   </div>
@@ -1435,9 +1541,6 @@ async function openPlanGallery(person){
 
       if(!urlData?.publicUrl) return;
 
-      const wrap=document.createElement("div");
-      wrap.className="gallery-photo";
-
       const img=document.createElement("img");
       img.className="gallery-item";
       img.src=urlData.publicUrl+"?v="+encodeURIComponent(row.created_at || Date.now());
@@ -1445,50 +1548,11 @@ async function openPlanGallery(person){
 
       img.onclick=()=>window.open(img.src,"_blank");
 
-      const del=document.createElement("button");
-      del.className="gallery-delete";
-      del.textContent="🗑️ Smazat";
-      del.onclick=(e)=>{
-        e.stopPropagation();
-        deletePlanImage(row);
-      };
-
-      wrap.appendChild(img);
-      wrap.appendChild(del);
-      grid.appendChild(wrap);
+      grid.appendChild(img);
     });
   }
 
   document.getElementById("galleryModal").classList.add("open");
-}
-
-async function deletePlanImage(row){
-  if(!confirm("Opravdu smazat tento obrázek?")) return;
-
-  const {error:storageError}=await db.storage
-    .from(PLAN_BUCKET)
-    .remove([row.path]);
-
-  if(storageError){
-    console.error(storageError);
-    alert("Obrázek se nepodařilo smazat ze Storage:\n\n"+storageError.message);
-    return;
-  }
-
-  const {error:dbError}=await db
-    .from("family_plan_images")
-    .delete()
-    .eq("id",row.id);
-
-  if(dbError){
-    console.error(dbError);
-    alert("Obrázek byl smazán ze Storage, ale nepodařilo se smazat záznam v databázi:\n\n"+dbError.message);
-    return;
-  }
-
-  planImages=planImages.filter(x=>x.id!==row.id);
-  await loadPlans();
-  await openPlanGallery(row.person);
 }
 
 function closePlanGallery(){
@@ -1498,6 +1562,178 @@ function closePlanGallery(){
 document.getElementById("galleryModal").addEventListener("click",e=>{
   if(e.target.id==="galleryModal") closePlanGallery();
 });
+
+
+
+/* =========================
+   PŘÍLOHY POZNÁMEK
+   ========================= */
+
+const NOTE_FILE_BUCKET = "family-photos";
+let noteFiles = [];
+
+async function loadNoteFiles(){
+  const {data,error} = await db
+    .from("family_note_files")
+    .select("*")
+    .order("created_at");
+
+  if(error){
+    console.error("Přílohy poznámek:",error.message);
+    return;
+  }
+
+  noteFiles = data || [];
+
+  for(const person of notePeople){
+    renderNoteFiles(person);
+  }
+}
+
+function renderNoteFiles(person){
+  const box = document.getElementById("note-files-"+person);
+  if(!box) return;
+
+  box.innerHTML = "";
+
+  const rows = noteFiles.filter(x => x.person === person);
+
+  rows.forEach(row => {
+    const {data:urlData} = db.storage
+      .from(NOTE_FILE_BUCKET)
+      .getPublicUrl(row.path);
+
+    if(!urlData?.publicUrl) return;
+
+    const item = document.createElement("div");
+    item.className = "note-file";
+
+    if((row.file_type || "").startsWith("image/")){
+      const thumb = document.createElement("img");
+      thumb.className = "note-file-image";
+      thumb.src = urlData.publicUrl;
+      thumb.alt = row.file_name || "Příloha";
+      thumb.onclick = () => window.open(urlData.publicUrl,"_blank");
+      item.appendChild(thumb);
+    }
+
+    const link = document.createElement("a");
+    link.className = "note-file-name";
+    link.href = urlData.publicUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = row.file_name || "Soubor";
+    item.appendChild(link);
+
+    const del = document.createElement("button");
+    del.className = "note-file-delete";
+    del.textContent = "🗑️";
+    del.title = "Smazat";
+    del.onclick = e => {
+      e.preventDefault();
+      e.stopPropagation();
+      deleteNoteFile(row);
+    };
+    item.appendChild(del);
+
+    box.appendChild(item);
+  });
+}
+
+async function uploadNoteFiles(person,files){
+  const selected = Array.from(files || []);
+  if(!selected.length) return;
+
+  const tooLarge = selected.find(file => file.size > 10*1024*1024);
+  if(tooLarge){
+    alert("Některý soubor je příliš velký.\n\nKaždý soubor musí mít méně než 10 MB.");
+    return;
+  }
+
+  const noteStatus = document.getElementById("note-status-"+person);
+  if(noteStatus){
+    noteStatus.textContent = `⏳ Nahrávám ${selected.length} souborů…`;
+  }
+
+  let uploaded = 0;
+
+  for(const file of selected){
+    const safeName = file.name.replace(/[^\w.\-čďéěíňóřšťúůýžČĎÉĚÍŇÓŘŠŤÚŮÝŽ ]/g,"_");
+    const path =
+      `notes/${person}-${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}`;
+
+    const {error:uploadError} = await db.storage
+      .from(NOTE_FILE_BUCKET)
+      .upload(path,file,{
+        cacheControl:"3600",
+        contentType:file.type || "application/octet-stream",
+        upsert:false
+      });
+
+    if(uploadError){
+      console.error(uploadError);
+      if(noteStatus) noteStatus.textContent = "❌ Některý soubor se nepodařilo nahrát";
+      alert("Soubor se nepodařilo nahrát:\n\n"+uploadError.message);
+      return;
+    }
+
+    const {error:dbError} = await db
+      .from("family_note_files")
+      .insert({
+        person,
+        path,
+        file_name:file.name,
+        file_type:file.type || ""
+      });
+
+    if(dbError){
+      console.error(dbError);
+      if(noteStatus) noteStatus.textContent = "❌ Soubor je nahraný, ale nepodařilo se uložit odkaz";
+      alert("Soubor se nahrál, ale databáze ho nepřidala do poznámek:\n\n"+dbError.message);
+      return;
+    }
+
+    uploaded++;
+  }
+
+  await loadNoteFiles();
+
+  if(noteStatus){
+    noteStatus.textContent =
+      `✓ ${uploaded} soubor${uploaded===1 ? "" : "ů"} uloženo online`;
+    setTimeout(() => {
+      noteStatus.textContent = "";
+    },2000);
+  }
+}
+
+async function deleteNoteFile(row){
+  if(!confirm(`Opravdu smazat soubor „${row.file_name}“?`))
+    return;
+
+  const {error:storageError} = await db.storage
+    .from(NOTE_FILE_BUCKET)
+    .remove([row.path]);
+
+  if(storageError){
+    console.error(storageError);
+    alert("Soubor se nepodařilo smazat ze Storage:\n\n"+storageError.message);
+    return;
+  }
+
+  const {error:dbError} = await db
+    .from("family_note_files")
+    .delete()
+    .eq("id",row.id);
+
+  if(dbError){
+    console.error(dbError);
+    alert("Soubor byl odstraněn ze Storage, ale nepodařilo se odstranit záznam:\n\n"+dbError.message);
+    return;
+  }
+
+  await loadNoteFiles();
+}
 
 
 /* =========================
@@ -1684,6 +1920,8 @@ load();
 loadPlans();
 
 loadNotes();
+
+loadNoteFiles();
 
 
 setInterval(

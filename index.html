@@ -112,8 +112,10 @@ button.secondary{
 
 .calendar{
   display:grid;
-  grid-template-columns:repeat(7,1fr);
+  grid-template-columns:repeat(7,minmax(0,1fr));
   gap:1px;
+  width:100%;
+  min-width:0;
   background:var(--line);
   border:1px solid var(--line);
   border-radius:12px;
@@ -460,6 +462,25 @@ textarea{
 
 @media(max-width:650px){
 
+  .calendar{
+    grid-template-columns:repeat(7,minmax(0,1fr));
+    width:100%;
+  }
+
+  .weekday,
+  .day,
+  .event{
+    min-width:0;
+  }
+
+  .day{
+    overflow:hidden;
+  }
+
+  .num{
+    font-size:12px;
+  }
+
   header{
     padding:13px 14px
   }
@@ -479,8 +500,18 @@ textarea{
   }
 
   .event{
-    font-size:10px;
-    padding:4px
+    font-size:9px;
+    padding:3px;
+    line-height:1.15
+  }
+
+  .event b{
+    white-space:normal;
+    word-break:break-word;
+  }
+
+  .event span{
+    font-size:8px;
   }
 
   .month{
